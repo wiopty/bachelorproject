@@ -9,19 +9,14 @@ TOP_COLORS = 3
 def get_top_colors(image_path):
     im = Image.open(image_path).convert('RGBA')
     width, height = im.size
-    # pixels = im.load()
+
 
     aspect_ratio = width / height
     num_blocks_x = int(math.sqrt(MAX_BLOCKS * aspect_ratio))
     num_blocks_y = int(MAX_BLOCKS / num_blocks_x)
 
-    # Розміри одного блоку в пікселях
     block_width_px = width // num_blocks_x
     block_height_px = height // num_blocks_y
-
-    print(f"Зображення: {width}x{height}")
-    print(f"Сітка: {num_blocks_x} x {num_blocks_y} = {num_blocks_x*num_blocks_y} блоків")
-    print(f"Розмір блоку: {block_width_px}x{block_height_px }")
 
 
     def rgb_to_hsv(pixel):

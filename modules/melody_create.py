@@ -1,5 +1,6 @@
-from music21 import stream, note, chord, meter, tie, bar, environment
-
+from music21 import stream, note, chord, meter, tie, bar
+# from pydub import AudioSegment
+import os
 def create_melody(notes, filename="melody.mid"):
     s = stream.Stream()
     s.append(meter.TimeSignature('4/4'))
@@ -45,12 +46,28 @@ def create_melody(notes, filename="melody.mid"):
             if current_beat >= beats_per_measure:
                 s.append(bar.Barline('regular'))
                 current_beat = 0.0
+    return s
 
-    if filename.endswith(".mid"):
-        s.write("midi", fp=filename)
-    else:
-        raise ValueError("Not supported")
+def save_melody(s, filename = None):
+    if not filename:
+        raise ValueError("Filename must be provided")
+    
+    ext = os.path.splitext(filename)[1].lower()
 
-    return  filename, s
+    if ext == ".mid":
+        s.write("midi", fp = filename)
+        return filename
+    
+    # elif ext == ".mp3":
+    #     temp_mid = filename.replace(".mp3", ".mid")
+    #     s.write("midi", fp = temp_mid)
+    #     audio = AudioSegment.from_file(temp_mid, format="mid")
+    #     audio.export(filename, format="mp3")
+
+    #     os.remove(temp_mid)
+    #     return filename
+    
+    else: 
+        raise ValueError("Unsupported file format. Use .mid or .mp3")
 
 

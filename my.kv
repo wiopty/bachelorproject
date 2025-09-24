@@ -1,0 +1,98 @@
+
+<WelcomeScreen>:
+    name: "welcomescreen"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 20
+        padding: 50
+        Label:
+            text: "🎵 My Melody App"
+            font_size: 40
+        Button:
+            text: "Start"
+            font_size: 24
+            size_hint: (0.5, 0.2)
+            pos_hint: {"center_x": 0.5}
+            on_release:
+                app.root.current = "mainmenuscreen" 
+
+<ImageChoosingScreen>:
+    name: "melodyscreen"
+    BoxLayout:
+        orientation: "vertical"
+        Image:
+            id: img
+            size_hint_y: 0.7
+            allow_stretch: True
+            keep_ratio: True
+        BoxLayout:
+            size_hint_y: 0.15
+            Button:
+                text: "Import image"
+                on_release: root.open_filechooser()
+            Button:
+                text: "Start"
+                on_release: 
+                    app.root.current = "loadingscreen"
+                    app.root.get_screen("loadingscreen").selected_file = root.selected_file
+                    app.root.get_screen("loadingscreen").start_processing()
+        Label:
+            id: status
+            size_hint_y: 0.15
+            text: " "
+
+<MainMenuScreen>:
+    name:"mainmenuscreen"
+    BoxLayout:
+        orientation: "vertical"
+        Button:
+            text: "Melody"
+            on_release: 
+                app.root.current = "melodyscreen"
+        Button:
+            text: "Game"
+            on_release: 
+                app.root.current = "melodyscreen"
+
+<LoadingScreen>:
+    name: "loadingscreen"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 20
+        padding: 50
+        Label:
+            text: "Melody is generating, please wait..."
+            font_size: 24
+        ProgressBar:
+            id: progress
+            max: 100
+            value: 0  
+
+<ResultScreen>:
+    name: "resultscreen"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 20
+        padding: 50
+        Label:
+            id: status
+            text: "Melody is ready"
+        BoxLayout:
+            size_hint_y: 0.2
+            spacing: 20
+            Button:
+                text: "Save"
+                on_release: root.save_melody()
+            Button:
+                text: "Play"
+                on_release: root.play_melody()
+        Button:
+            text: "Back to Main Menu"
+            size_hint_y: 0.2
+            on_release: app.root.current = "mainmenuscreen"
+ScreenManager:
+    WelcomeScreen:
+    MainMenuScreen:
+    ImageChoosingScreen:
+    LoadingScreen:
+    ResultScreen:
