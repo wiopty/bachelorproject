@@ -3,6 +3,7 @@ from app.screens.main_menu_screen import MainMenuScreen
 from app.screens.image_choosing_screen import ImageChoosingScreen
 from app.screens.loading_screen import LoadingScreen
 from app.screens.result_screen import ResultScreen
+from app.screens.playing_screen import PlayingScreen
 from kivy.app import App
 from kivy.lang import Builder
 

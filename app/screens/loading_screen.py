@@ -1,7 +1,6 @@
 from kivy.uix.screenmanager import Screen
 from kivy.clock import Clock
 from threading import Thread
-import os
 
 from modules.colorfind import get_top_colors
 from modules.note_mapping import convert_colors_to_notes
