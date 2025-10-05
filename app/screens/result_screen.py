@@ -14,10 +14,10 @@ class ResultScreen(Screen):
 
             # передаємо шлях у PlayingScreen
             playing_screen = self.manager.get_screen("playingscreen")
-            playing_screen.temp_file_path = temp_path
+            playing_screen.midi_file_path = temp_path
         else:
             playing_screen = self.manager.get_screen("playingscreen")
-            playing_screen.temp_file_path = None
+            playing_screen.midi_file_path = None
 
         self.manager.current = "playingscreen"
 
