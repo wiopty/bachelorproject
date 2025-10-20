@@ -7,12 +7,12 @@ class ResultScreen(Screen):
 
     def start_processing(self):
         if self.melody:
-            # створюємо тимчасовий файл для MIDI
+            
             with tempfile.NamedTemporaryFile(delete=False, suffix=".mid") as tmp_file:
                 self.melody.write("midi", fp=tmp_file.name)
                 temp_path = tmp_file.name
 
-            # передаємо шлях у PlayingScreen
+            
             playing_screen = self.manager.get_screen("playingscreen")
             playing_screen.temp_file_path = temp_path
         else:

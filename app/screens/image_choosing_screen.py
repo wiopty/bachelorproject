@@ -4,6 +4,7 @@ import os
 
 class ImageChoosingScreen(Screen):
     selected_file = None
+    use_sharps = False
 
     def on_enter(self):
         self.ids.status.text = "Choose an image"
@@ -23,11 +24,15 @@ class ImageChoosingScreen(Screen):
             self.ids.img.source = self.selected_file
             self.ids.status.text = f"File choosed: {os.path.basename(self.selected_file)}"
 
+    # def toggle_sharps(self,instance, value):
+    #     self.use_sharps = value
+
     def start_processing(self):
         if not self.selected_file:
             self.ids.status.text = "You should choose an image first"
             return
 
-        loading_screen = self.manager.get_screen("loadingscreen")
-        loading_screen.selected_file = self.selected_file
-        self.manager.current = "loadingscreen"
+        melody_settings = self.manager.get_screen("melodysettings")
+        melody_settings.selected_file = self.selected_file
+        # loading_screen.use_sharps = self.use_sharps
+        self.manager.current = "melody_settings_screen"

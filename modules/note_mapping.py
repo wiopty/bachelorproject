@@ -1,9 +1,9 @@
-import json
+# import json
 
 
-def load_hue_map(path):
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+# def load_hue_map(path):
+#     with open(path, "r", encoding="utf-8") as f:
+#         return json.load(f)
     
 def get_note_from_hue(h, hue_map):
     for hue_range, note in hue_map.items():
@@ -32,15 +32,14 @@ def get_note_length_from_v(block_colors):
     else: 
         return 0.25
 
-def convert_colors_to_notes(all_block_colors, json_path="config/hue_to_note.json"):
-    hue_map=load_hue_map(json_path)
+def convert_colors_to_notes(all_block_colors, note_range):
     notes = []
     for block in all_block_colors:
         block_notes = []
         note_length = get_note_length_from_v(block)
         for hsv in block:
             h,s,v = hsv
-            note = get_note_from_hue(h, hue_map)
+            note = get_note_from_hue(h, note_range)
             if note:
                 block_notes.append(note)
         notes.append((block_notes, note_length))

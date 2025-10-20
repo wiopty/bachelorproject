@@ -5,9 +5,19 @@
         orientation: "vertical"
         spacing: 20
         padding: 50
-        Label:
-            text: "🎵 My Melody App"
-            font_size: 40
+
+        canvas.before:
+            Color:
+                rgba: 0,0,0,0   
+            Rectangle:
+                pos: self.pos
+                size: self.size
+            
+        Image:
+            source: "assets/logo2.png"
+            size_hint: (1, 0.7)
+            allow_stretch: True
+            keep_ratio: True
         Button:
             text: "Start"
             font_size: 24
@@ -27,18 +37,21 @@
             keep_ratio: True
         BoxLayout:
             size_hint_y: 0.15
+            
             Button:
                 text: "Import image"
                 on_release: root.open_filechooser()
             Button:
                 text: "Start"
                 on_release: 
-                    app.root.current = "loadingscreen"
-                    app.root.get_screen("loadingscreen").selected_file = root.selected_file
-                    app.root.get_screen("loadingscreen").start_processing()
+                    app.root.current = "melodysettings"
+                    app.root.get_screen("melodysettings").selected_file = root.selected_file
+                    
+        
+
         Label:
             id: status
-            size_hint_y: 0.15
+            size_hint_y: 0.1
             text: " "
 
 <MainMenuScreen>:
@@ -53,6 +66,77 @@
             text: "Game"
             on_release: 
                 app.root.current = "melodyscreen"
+
+<MelodySettingsScreen>:
+    name: "melodysettings"
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 20
+        padding: 50
+
+        Label:
+            text: "НMelody settings"
+            font_size: 24
+            size_hint_y: None
+            height: 40
+            halign: "center"
+            valign: "middle"
+
+        Label:
+            text: "Choose the number of octaves"
+            font_size: 18
+            size_hint_y: None
+            height: 30
+            halign: "center"
+            valign: "middle"
+
+        BoxLayout:
+            id: octave_selector
+            orientation: "horizontal"
+            size_hint_y: None
+            height: 50
+            spacing: 10
+
+            ToggleButton:
+                text: "2"
+                group: "octaves"
+                on_state: root.set_octaves([3,4]) if self.state=="down" else None
+
+            ToggleButton:
+                text: "3"
+                group: "octaves"
+                state: "down"   # дефолтно
+                on_state: root.set_octaves([2,3,4]) if self.state=="down" else None
+
+            ToggleButton:
+                text: "4"
+                group: "octaves"
+                on_state: root.set_octaves([2,3,4,5]) if self.state=="down" else None
+
+            ToggleButton:
+                text: "5"
+                group: "octaves"
+                on_state: root.set_octaves([1,2,3,4,5]) if self.state=="down" else None
+
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            height: 40
+            spacing: 10
+            Label:
+                text: "Include sharps (#)?"
+                font_size: 18
+            CheckBox:
+                on_active: root.toggle_sharps(self, self.active)
+
+        Widget:
+            size_hint_y: 1
+
+        Button:
+            text: "Continue"
+            size_hint_y: None
+            height: 50
+            on_release: root.start_processing()
 
 <LoadingScreen>:
     name: "loadingscreen"
@@ -133,3 +217,4 @@ ScreenManager:
     LoadingScreen:
     ResultScreen:
     PlayingScreen:
+    MelodySettingsScreen:
