@@ -4,6 +4,7 @@ from app.screens.image_choosing_screen import ImageChoosingScreen
 from app.screens.loading_screen import LoadingScreen
 from app.screens.result_screen import ResultScreen
 from app.screens.playing_screen import PlayingScreen
+from app.screens.melody_settings_screen import MelodySettingsScreen
 from kivy.app import App
 from kivy.lang import Builder
 

@@ -8,9 +8,11 @@ from modules.melody_create import create_melody
 
 class LoadingScreen(Screen):
     selected_file = None
+    notes_range = None
     progress_value = 0
     progress_target = 0
     melody_part = None
+    use_sharps = True
 
     def start_processing(self):
         self.ids.progress.value = 0
@@ -31,12 +33,13 @@ class LoadingScreen(Screen):
         return True  
 
     def _run_pipeline(self):
-        
+    
+
         all_blocks_colors = get_top_colors(self.selected_file)
         Clock.schedule_once(lambda dt: setattr(self, 'progress_target', 33))
 
         
-        notes = convert_colors_to_notes(all_blocks_colors, "config/hue_to_note.json")
+        notes = convert_colors_to_notes(all_blocks_colors, self.notes_range)
         Clock.schedule_once(lambda dt: setattr(self, 'progress_target', 66))
 
         
