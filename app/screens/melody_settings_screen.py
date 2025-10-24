@@ -5,12 +5,20 @@ class MelodySettingsScreen(Screen):
     selected_octaves = [4,5,6] 
     use_sharps = False
     selected_file = None
+    selected_melody_instrument = "Piano" 
+    selected_bass_instrument = "Piano" 
 
     def toggle_sharps(self,instance, value):
         self.use_sharps = value
 
     def set_octaves(self, octaves_list):
         self.selected_octaves = octaves_list
+
+    def set_melody_instrument(self, instrument_name):
+        self.selected_melody_instrument = instrument_name
+
+    def set_bass_instrument(self, instrument_name):
+        self.selected_bass_instrument = instrument_name
 
     def generate_notes(self, use_sharps, octaves):
         base_notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
@@ -39,8 +47,6 @@ class MelodySettingsScreen(Screen):
             note_map[last_key] = note_map[last_key]
             note_map[f"{last_start}-{359}"] = note_map.pop(last_key)
         
-        print(f"Octaves received: {octaves}")
-        print(f"Notes list: {notes_list}")
         return note_map
                 
     def start_processing(self):
@@ -53,6 +59,8 @@ class MelodySettingsScreen(Screen):
         loading_screen = self.manager.get_screen("loadingscreen")
         loading_screen.notes_range = notes_range
         loading_screen.selected_file = self.selected_file
+        loading_screen.selected_melody_instrument = self.selected_melody_instrument
+        loading_screen.selected_bass_instrument = self.selected_bass_instrument
         self.manager.current = "loadingscreen"
         loading_screen.start_processing()
     

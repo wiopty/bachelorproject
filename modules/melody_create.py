@@ -2,21 +2,31 @@ from music21 import stream, note, chord, meter, tie, bar, instrument, clef
 # from pydub import AudioSegment
 import os
 
-def create_melody(notes, bass_notes, filename="melody.mid"):
-    # Створюємо партитуру з двома партіями
+def get_instrument(instrument_name):
+    instrument_map = {
+        'Piano': instrument.Piano(),
+        'Organ': instrument.Organ(),
+        'Violin': instrument.Violin(),
+        'Flute': instrument.Flute(),
+        'Accordion': instrument.Accordion(),
+        'Guitar': instrument.Guitar(),
+        "Bagpipes": instrument.Bagpipes()
+    }
+    return instrument_map.get(instrument_name, instrument.Piano())
+
+def create_melody(notes, bass_notes, filename="melody.mid", melody_instrument="Piano", bass_instrument="Piano"):
+    
     score = stream.Score()
     
-    # Створюємо окремі партії для мелодії та басу
     melody_part = stream.Part()
     bass_part = stream.Part()
     
-    # Додаємо інструменти
-    melody_part.insert(0, instrument.Piano())
-    melody_part.insert(0, clef.TrebleClef())
-    bass_part.insert(0, instrument.Piano())
-    bass_part.insert(0, clef.BassClef())
     
-    # Додаємо розмір такту
+    melody_part.append(get_instrument(melody_instrument))
+    melody_part.append(clef.TrebleClef())
+    bass_part.append(get_instrument(bass_instrument))
+    bass_part.append(clef.BassClef())
+    
     melody_part.append(meter.TimeSignature('4/4'))
     bass_part.append(meter.TimeSignature('4/4'))
 
@@ -24,12 +34,9 @@ def create_melody(notes, bass_notes, filename="melody.mid"):
     melody_current_beat = 0.0
     bass_current_beat = 0.0
 
-    # Знаходимо максимальну довжину для синхронізації
     max_length = max(len(notes), len(bass_notes))
     
-    # Обробляємо мелодію та бас одночасно
     for i in range(max_length):
-        # Обробляємо мелодію (якщо є нота)
         if i < len(notes):
             notes_group, duration = notes[i]
             unique_notes = list(dict.fromkeys(notes_group))
@@ -71,7 +78,6 @@ def create_melody(notes, bass_notes, filename="melody.mid"):
                     melody_part.append(bar.Barline('regular'))
                     melody_current_beat = 0.0
 
-        # Обробляємо бас (якщо є нота)
         if i < len(bass_notes):
             bass_group, bass_duration = bass_notes[i]
             unique_bass_notes = list(dict.fromkeys(bass_group))
@@ -113,7 +119,6 @@ def create_melody(notes, bass_notes, filename="melody.mid"):
                     bass_part.append(bar.Barline('regular'))
                     bass_current_beat = 0.0
 
-    # Додаємо партії до партитури одночасно
     score.insert(0, melody_part)
     score.insert(0, bass_part)
     
@@ -134,7 +139,7 @@ def save_melody(s, filename = None):
         return filename
     # elif ext == ".mp3":
     #     temp_mid = filename.replace(".mp3", ".mid")
-    #     s.write("midi", fp = temp_mid)
+    #     s.write("midi", fp = filename)
     #     audio = AudioSegment.from_file(temp_mid, format="mid")
     #     audio.export(filename, format="mp3")
 
