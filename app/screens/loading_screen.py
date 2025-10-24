@@ -5,6 +5,7 @@ from threading import Thread
 from modules.colorfind import get_top_colors
 from modules.note_mapping import convert_colors_to_notes
 from modules.melody_create import create_melody
+from modules.bass_generator import create_bass
 
 class LoadingScreen(Screen):
     selected_file = None
@@ -40,10 +41,12 @@ class LoadingScreen(Screen):
 
         
         notes = convert_colors_to_notes(all_blocks_colors, self.notes_range)
+        bass_notes = create_bass(notes, mode="major")
         Clock.schedule_once(lambda dt: setattr(self, 'progress_target', 66))
 
+
         
-        self.melody_part = create_melody(notes)
+        self.melody_part = create_melody(notes, bass_notes)
         Clock.schedule_once(lambda dt: setattr(self, 'progress_target', 100))
 
         

@@ -2,7 +2,7 @@ from kivy.uix.screenmanager import Screen
 
 
 class MelodySettingsScreen(Screen):
-    selected_octaves = [2,3,4] 
+    selected_octaves = [4,5,6] 
     use_sharps = False
     selected_file = None
 
@@ -39,14 +39,16 @@ class MelodySettingsScreen(Screen):
             note_map[last_key] = note_map[last_key]
             note_map[f"{last_start}-{359}"] = note_map.pop(last_key)
         
+        print(f"Octaves received: {octaves}")
+        print(f"Notes list: {notes_list}")
         return note_map
                 
     def start_processing(self):
         notes_range = self.generate_notes(self.use_sharps, self.selected_octaves)
 
-        print("Generated notes range:")
-        for k, v in notes_range.items():
-            print(f"{k}: {v}")
+        # print("Generated notes range:")
+        # for k, v in notes_range.items():
+        #     print(f"{k}: {v}")
 
         loading_screen = self.manager.get_screen("loadingscreen")
         loading_screen.notes_range = notes_range
