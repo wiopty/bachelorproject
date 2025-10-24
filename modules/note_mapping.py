@@ -1,10 +1,4 @@
-# import json
 
-
-# def load_hue_map(path):
-#     with open(path, "r", encoding="utf-8") as f:
-#         return json.load(f)
-    
 def get_note_from_hue(h, hue_map):
     for hue_range, note in hue_map.items():
         start, end = map(int, hue_range.split("-"))
@@ -13,8 +7,6 @@ def get_note_from_hue(h, hue_map):
 
 def get_note_length_from_v(block_colors):
     velocity = [v for (_,_,v) in block_colors if _ is not None]
-    # if not velocity:
-    #     return 1.0
     avg_v = round(sum(velocity)/len(velocity))
 
     if avg_v <= 10:
@@ -43,5 +35,6 @@ def convert_colors_to_notes(all_block_colors, note_range):
             if note:
                 block_notes.append(note)
         notes.append((block_notes, note_length))
+        
         
     return notes
