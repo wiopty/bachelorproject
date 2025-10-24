@@ -1,4 +1,3 @@
-
 def get_note_from_hue(h, hue_map):
     for hue_range, note in hue_map.items():
         start, end = map(int, hue_range.split("-"))
