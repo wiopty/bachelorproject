@@ -1,4 +1,10 @@
-#check 2.0
+# import json
+
+#check
+# def load_hue_map(path):
+#     with open(path, "r", encoding="utf-8") as f:
+#         return json.load(f)
+    
 def get_note_from_hue(h, hue_map):
     for hue_range, note in hue_map.items():
         start, end = map(int, hue_range.split("-"))
