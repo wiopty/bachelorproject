@@ -75,12 +75,42 @@
         padding: 50
 
         Label:
-            text: "НMelody settings"
+            text: "Melody settings"
             font_size: 24
             size_hint_y: None
             height: 40
             halign: "center"
             valign: "middle"
+
+        BoxLayout:
+            orientation: "vertical"
+            Label:
+                text: "Melody instrument:"
+                font_size: 16
+                size_hint_y: None
+                height: 25
+            Spinner:
+                id: melody_instrument_spinner
+                text: "Piano"
+                values: ["Piano", "Organ", "Violin", "Flute", "Accordion", "Guitar", "Bagpipes"]
+                size_hint_y: None
+                height: 40
+                on_text: root.set_melody_instrument(self.text)
+
+        BoxLayout:
+            orientation: "vertical"
+            Label:
+                text: "Bass instrument:"
+                font_size: 16
+                size_hint_y: None
+                height: 25
+            Spinner:
+                id: bass_instrument_spinner
+                text: "Piano"
+                values: ["Piano", "Organ", "Violin", "Flute", "Accordion", "Guitar", "Bagpipes"]
+                size_hint_y: None
+                height: 40
+                on_text: root.set_bass_instrument(self.text)
 
         Label:
             text: "Choose the number of octaves"

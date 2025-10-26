@@ -46,7 +46,8 @@ class LoadingScreen(Screen):
 
 
         
-        self.melody_part = create_melody(notes, bass_notes)
+        self.melody_part = create_melody(notes, bass_notes, melody_instrument=self.selected_melody_instrument,
+                      bass_instrument=self.selected_bass_instrument)
         Clock.schedule_once(lambda dt: setattr(self, 'progress_target', 100))
 
         
