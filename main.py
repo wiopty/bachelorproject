@@ -8,6 +8,12 @@ from app.screens.melody_settings_screen import MelodySettingsScreen
 from kivy.app import App
 from kivy.lang import Builder
 
+from kivy.core.text import LabelBase
+
+LabelBase.register(
+    name="Bitcount",
+    fn_regular="assets/BitcountPropSingleInk.ttf"
+)
 
 class MyApp(App):
     def build(self):
