@@ -4,13 +4,19 @@ import pygame
 from kivy.uix.screenmanager import Screen
 from kivy.clock import Clock
 from music21 import midi
+from kivy.properties import NumericProperty
 
 pygame.mixer.init()
 
 class PlayingScreen(Screen):
+    rotation_angle = NumericProperty(0)
     temp_file_path = None
     is_paused = False
     duration = 0
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.rotation_event = None
 
     def calculate_duration(self, stream_obj):
         total_quarters = stream_obj.quarterLength
@@ -40,6 +46,7 @@ class PlayingScreen(Screen):
         pygame.mixer.music.play()
         self.is_paused = False
         self.ids.play_btn.text = "Pause"
+        self.start_rotation()
         self.current_time = 0
         self.ids.progress.value = 0
         if self.manager.get_screen("resultscreen").melody:
@@ -58,10 +65,25 @@ class PlayingScreen(Screen):
             pygame.mixer.music.unpause()
             self.is_paused = False
             self.ids.play_btn.text = "Pause"
+            self.start_rotation()
         else:
             pygame.mixer.music.pause()
             self.is_paused = True
             self.ids.play_btn.text = "Play"
+            self.stop_rotation()
+
+    def start_rotation(self):
+        if not self.rotation_event:
+            self.rotation_event = Clock.schedule_interval(self.rotate_vinyl, 1 / 60)
+
+    def stop_rotation(self):
+        if self.rotation_event:
+            self.rotation_event.cancel()
+            self.rotation_event = None
+
+    def rotate_vinyl(self, dt):
+        self.rotation_angle = (self.rotation_angle + 2) % 360
+
 
     def stop_playing(self):
         pygame.mixer.music.stop()
@@ -70,7 +92,7 @@ class PlayingScreen(Screen):
     
     def update_progress(self, dt):
         if not self.is_paused and pygame.mixer.music.get_busy():
-            self.current_time += dt  # додаємо проміжок часу
+            self.current_time += dt  
             if self.current_time > self.duration:
                 self.current_time = self.duration
 
