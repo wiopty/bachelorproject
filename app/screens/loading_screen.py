@@ -41,7 +41,7 @@ class LoadingScreen(Screen):
 
         
         notes = convert_colors_to_notes(all_blocks_colors, self.notes_range)
-        bass_notes = create_bass(notes, mode="major")
+        bass_notes = create_bass(notes, all_block_colors=all_blocks_colors)
         Clock.schedule_once(lambda dt: setattr(self, 'progress_target', 66))
 
 
