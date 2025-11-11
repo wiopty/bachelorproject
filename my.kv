@@ -110,7 +110,7 @@
             size_hint_y: None
             height: 120
             on_release: 
-                app.root.current = "melodyscreen"
+                app.root.current = "gamescreen"
 
 <MelodySettingsScreen>:
     name: "melodysettings"
@@ -385,6 +385,82 @@
                 font_size: 30
                 on_release: root.stop_playing()
 
+<GameScreen>:
+    name: "gamescreen"
+    FloatLayout:
+        size_hint: (1, 1)
+        pos_hint: {"x": 0, "y": 0}
+        Image:
+            source: "assets/bg.gif"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+            anim_delay: 0.1
+
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 30
+        padding: [60, 40, 60, 40]
+        
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            height: 60
+            spacing: 30
+            Widget:
+                size_hint_x: 1
+                    
+            Label:
+                id: score_label
+                text: " "
+                font_name: "Bitcount"
+                font_size: 30
+                halign: "right"
+                valign: "middle"
+                size_hint: (None, None)
+                size: self.texture_size
+                pos_hint: {"right": 1}
+                padding: [20, 10]
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 0.7
+                    RoundedRectangle:
+                        pos: self.x - 20, self.y - 10
+                        size: self.width + 40, self.height + 20
+                        radius: [10]
+        GridLayout:
+            id: images_layout
+            cols: 2
+            spacing: [80, 60]  
+            size_hint: (None, None)
+            size: self.minimum_size
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            row_default_height: 200
+            row_force_default: True
+            col_default_width: 300
+            col_force_default: True
+
+        BoxLayout:
+            size_hint_y: None
+            height: 60
+            spacing: 40
+
+            Button:
+                text: "Return to Menu"
+                font_name: "Bitcount"
+                font_size: 30
+                on_release: root.back_to_menu()
+
+            Button:
+                id: next_button
+                text: "Next Level"
+                font_name: "Bitcount"
+                font_size: 30
+                disabled: True
+                on_release: root.next_level()
+
+
 ScreenManager:
     WelcomeScreen:
     MainMenuScreen:
@@ -393,3 +469,4 @@ ScreenManager:
     ResultScreen:
     PlayingScreen:
     MelodySettingsScreen:
+    GameScreen:
