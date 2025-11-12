@@ -9,7 +9,7 @@ def load_level(level_name, base_image_dir="game_materials/images", base_melody_d
     if not os.path.exists(image_dir) or not os.path.exists(melody_dir):
         raise FileNotFoundError(f"Not found: {level_name}")
 
-    images = sorted([f for f in os.listdir(image_dir) if f.endswith((".png","jpg"))])
+    images = sorted([f for f in os.listdir(image_dir) if f.endswith(".png")])
     melodies = sorted([f for f in os.listdir(melody_dir) if f.endswith((".mid"))])
 
     if len(images) != len(melodies):
@@ -38,6 +38,7 @@ def new_round(level_data):
         if candidate not in options:
             options.append(candidate)
     random.shuffle(options)
+
     return {
         "melody": os.path.join(melody_dir, correct_melody),
         "correct_image": os.path.join(image_dir, correct_image),
