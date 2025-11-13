@@ -5,9 +5,16 @@ from app.screens.loading_screen import LoadingScreen
 from app.screens.result_screen import ResultScreen
 from app.screens.playing_screen import PlayingScreen
 from app.screens.melody_settings_screen import MelodySettingsScreen
+from app.screens.game_screen import GameScreen
+from app.screens.game_results_screen import GameResultsScreen
 from kivy.app import App
 from kivy.lang import Builder
+from kivy.core.text import LabelBase
 
+LabelBase.register(
+    name="Bitcount",
+    fn_regular="assets/BitcountPropSingleInk.ttf"
+)
 
 class MyApp(App):
     def build(self):

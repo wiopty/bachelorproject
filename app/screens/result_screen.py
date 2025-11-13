@@ -30,7 +30,7 @@ class ResultScreen(Screen):
 
         file_path = filedialog.asksaveasfilename(
             defaultextension=".mid",
-            filetypes=[("MIDI files", "*.mid"), ("MP3 files", "*.mp3")],
+            filetypes=[("MIDI files", "*.mid"), ("MP3 files", "*.mp3"), ("MusicXML files", "*.xml")],
             title="Save melody as"
         )
 

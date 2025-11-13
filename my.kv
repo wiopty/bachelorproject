@@ -1,18 +1,19 @@
-
 <WelcomeScreen>:
     name: "welcomescreen"
+    FloatLayout:
+        size_hint: (1, 1)
+        pos_hint: {"x": 0, "y": 0}
+        Image:
+            source: "assets/bg.gif"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+            anim_delay: 0.1
     BoxLayout:
         orientation: "vertical"
         spacing: 20
         padding: 50
-
-        canvas.before:
-            Color:
-                rgba: 0,0,0,0   
-            Rectangle:
-                pos: self.pos
-                size: self.size
-            
         Image:
             source: "assets/logo2.png"
             size_hint: (1, 0.7)
@@ -20,7 +21,8 @@
             keep_ratio: True
         Button:
             text: "Start"
-            font_size: 24
+            font_name:"Bitcount"
+            font_size: 30
             size_hint: (0.5, 0.2)
             pos_hint: {"center_x": 0.5}
             on_release:
@@ -28,6 +30,16 @@
 
 <ImageChoosingScreen>:
     name: "melodyscreen"
+    FloatLayout:
+        size_hint: (1, 1)
+        pos_hint: {"x": 0, "y": 0}
+        Image:
+            source: "assets/bg.gif"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+            anim_delay: 0.1
     BoxLayout:
         orientation: "vertical"
         Image:
@@ -35,56 +47,141 @@
             size_hint_y: 0.7
             allow_stretch: True
             keep_ratio: True
+            color: 1, 1, 1, 0
         BoxLayout:
             size_hint_y: 0.15
-            
             Button:
                 text: "Import image"
+                font_name:"Bitcount"
+                font_size: 30
                 on_release: root.open_filechooser()
             Button:
+                id: start_button
                 text: "Start"
+                font_name:"Bitcount"
+                font_size: 30
                 on_release: 
                     app.root.current = "melodysettings"
-                    app.root.get_screen("melodysettings").selected_file = root.selected_file
-                    
-        
-
+                    app.root.get_screen("melodysettings").selected_file = root.selected_file                 
         Label:
             id: status
             size_hint_y: 0.1
             text: " "
+            font_name:"Bitcount"
+            font_size: 20
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.7
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10]
 
 <MainMenuScreen>:
     name:"mainmenuscreen"
+    FloatLayout:
+        size_hint: (1, 1)
+        pos_hint: {"x": 0, "y": 0}
+        Image:
+            source: "assets/bg.gif"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+            anim_delay: 0.1
     BoxLayout:
         orientation: "vertical"
+        spacing: 25                   
+        size_hint: (0.5, None)       
+        height: self.minimum_height   
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
         Button:
             text: "Melody"
+            font_name:"Bitcount"
+            font_size: 30
+            size_hint_y: None
+            height: 120
             on_release: 
                 app.root.current = "melodyscreen"
         Button:
             text: "Game"
+            font_name:"Bitcount"
+            font_size: 30
+            size_hint_y: None
+            height: 120
             on_release: 
-                app.root.current = "melodyscreen"
+                app.root.current = "gamescreen"
 
 <MelodySettingsScreen>:
     name: "melodysettings"
+    FloatLayout:
+        size_hint: (1, 1)
+        pos_hint: {"x": 0, "y": 0}
+        Image:
+            source: "assets/bg.gif"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+            anim_delay: 0.1
+    
     BoxLayout:
         orientation: "vertical"
         spacing: 20
         padding: 50
 
         Label:
-            text: "НMelody settings"
-            font_size: 24
+            text: "Melody settings"
+            font_name:"Bitcount"
+            font_size: 40
             size_hint_y: None
             height: 40
             halign: "center"
             valign: "middle"
 
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            Label:
+                text: "Melody instrument:"
+                font_name:"Bitcount"
+                font_size: 30
+                size_hint_y: None
+                height: 25
+            Spinner:
+                id: melody_instrument_spinner
+                text: "Piano"
+                font_name:"Bitcount"
+                font_size: 25
+                values: ["Piano", "Organ", "Violin", "Flute", "Accordion", "Guitar", "Bagpipes"]
+                size_hint_y: None
+                height: 60
+                on_text: root.set_melody_instrument(self.text)
+
+        BoxLayout:
+            orientation: "vertical"
+            spacing: 10
+            Label:
+                text: "Bass instrument:"
+                font_name:"Bitcount"
+                font_size: 30
+                size_hint_y: None
+                height: 25
+                
+            Spinner:
+                id: bass_instrument_spinner
+                text: "Piano"
+                font_name:"Bitcount"
+                font_size: 25
+                values: ["Piano", "Organ", "Violin", "Flute", "Accordion", "Guitar", "Bagpipes"]
+                size_hint_y: None
+                height: 60
+                on_text: root.set_bass_instrument(self.text)
+
         Label:
             text: "Choose the number of octaves"
-            font_size: 18
+            font_name:"Bitcount"
+            font_size: 30
             size_hint_y: None
             height: 30
             halign: "center"
@@ -99,54 +196,84 @@
 
             ToggleButton:
                 text: "2"
+                font_name:"Bitcount"
+                font_size: 25
                 group: "octaves"
-                on_state: root.set_octaves([3,4]) if self.state=="down" else None
+                on_state: root.set_octaves([4,5]) if self.state=="down" else None
 
             ToggleButton:
                 text: "3"
+                font_name:"Bitcount"
+                font_size: 25
                 group: "octaves"
-                state: "down"   # дефолтно
-                on_state: root.set_octaves([2,3,4]) if self.state=="down" else None
+                state: "down"  
+                on_state: root.set_octaves([3,4,5]) if self.state=="down" else None
 
             ToggleButton:
                 text: "4"
+                font_name:"Bitcount"
+                font_size: 25
                 group: "octaves"
-                on_state: root.set_octaves([2,3,4,5]) if self.state=="down" else None
+                on_state: root.set_octaves([3,4,5,6]) if self.state=="down" else None
 
             ToggleButton:
                 text: "5"
+                font_name:"Bitcount"
+                font_size: 25
                 group: "octaves"
-                on_state: root.set_octaves([1,2,3,4,5]) if self.state=="down" else None
+                on_state: root.set_octaves([3,4,5,6,7]) if self.state=="down" else None
 
         BoxLayout:
             orientation: "horizontal"
             size_hint_y: None
             height: 40
             spacing: 10
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.7
+                RoundedRectangle:
+                    pos: self.pos
+                    size: self.size
+                    radius: [10]
             Label:
                 text: "Include sharps (#)?"
-                font_size: 18
+                font_name:"Bitcount"
+                font_size: 30
             CheckBox:
                 on_active: root.toggle_sharps(self, self.active)
+
 
         Widget:
             size_hint_y: 1
 
         Button:
             text: "Continue"
+            font_name:"Bitcount"
+            font_size: 30
             size_hint_y: None
-            height: 50
+            height: 60
             on_release: root.start_processing()
 
 <LoadingScreen>:
     name: "loadingscreen"
+    FloatLayout:
+        size_hint: (1, 1)
+        pos_hint: {"x": 0, "y": 0}
+        Image:
+            source: "assets/bg.gif"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+            anim_delay: 0.1
     BoxLayout:
         orientation: "vertical"
         spacing: 20
         padding: 50
         Label:
             text: "Melody is generating, please wait..."
-            font_size: 24
+            font_name:"Bitcount"
+            font_size: 30
         ProgressBar:
             id: progress
             max: 100
@@ -154,6 +281,16 @@
 
 <ResultScreen>:
     name: "resultscreen"
+    FloatLayout:
+        size_hint: (1, 1)
+        pos_hint: {"x": 0, "y": 0}
+        Image:
+            source: "assets/bg.gif"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+            anim_delay: 0.1
     BoxLayout:
         orientation: "vertical"
         spacing: 20
@@ -161,31 +298,65 @@
         Label:
             id: status
             text: "Melody is ready"
+            font_name:"Bitcount"
+            font_size: 40
         BoxLayout:
             size_hint_y: 0.2
             spacing: 20
             Button:
                 text: "Save"
+                font_name:"Bitcount"
+                font_size: 30
                 on_release: root.save_melody()
             Button:
                 text: "Play"
+                font_name:"Bitcount"
+                font_size: 30
                 on_release: root.start_processing()
         Button:
             text: "Back to Main Menu"
+            font_name:"Bitcount"
+            font_size: 30
             size_hint_y: 0.2
             on_release: app.root.current = "mainmenuscreen"
             
 <PlayingScreen>:
     name: "playingscreen"
+    FloatLayout:
+        size_hint: (1, 1)
+        pos_hint: {"x": 0, "y": 0}
+        Image:
+            source: "assets/bg.gif"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+            anim_delay: 0.1
     BoxLayout:
         orientation: "vertical"
         padding: 30
         spacing: 20
+        FloatLayout:
+            Image:
+                id: vinyl
+                source: "assets/vinyl2.png"
+                size_hint: (0.7, 0.7)
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                canvas.before:
+                    PushMatrix
+                    Rotate:
+                        id: rot
+                        angle: root.rotation_angle
+                        origin: self.center
+
+                canvas.after:
+                    PopMatrix
 
         Label:
             id: time_label
             text: " "
-            font_size: 20
+            font_name:"Bitcount"
+            font_size: 30
             size_hint_y: None
             height: 40
 
@@ -204,11 +375,197 @@
             Button:
                 id: play_btn
                 text: "Play"
+                font_name:"Bitcount"
+                font_size: 30
                 on_release: root.toggle_play_pause()
 
             Button:
                 text: "Return"
+                font_name:"Bitcount"
+                font_size: 30
                 on_release: root.stop_playing()
+
+<GameScreen>:
+    name: "gamescreen"
+    FloatLayout:
+        size_hint: (1, 1)
+        pos_hint: {"x": 0, "y": 0}
+        Image:
+            source: "assets/bg.gif"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+            anim_delay: 0.1
+
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 30
+        padding: [60, 40, 60, 40]
+        
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            height: 60
+            spacing: 30
+            Widget:
+                size_hint_x: 1
+                    
+            Label:
+                id: score_label
+                text: " "
+                font_name: "Bitcount"
+                font_size: 30
+                halign: "right"
+                valign: "middle"
+                size_hint: (None, None)
+                size: self.texture_size
+                pos_hint: {"right": 1}
+                padding: [20, 10]
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, 0.7
+                    RoundedRectangle:
+                        pos: self.x - 20, self.y - 10
+                        size: self.width + 40, self.height + 20
+                        radius: [10]
+        GridLayout:
+            id: images_layout
+            cols: 2
+            spacing: [80, 60]  
+            size_hint: (None, None)
+            size: self.minimum_size
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            row_default_height: 200
+            row_force_default: True
+            col_default_width: 300
+            col_force_default: True
+
+        BoxLayout:
+            size_hint_y: None
+            height: 60
+            spacing: 40
+
+            Button:
+                text: "Return to Menu"
+                font_name: "Bitcount"
+                font_size: 30
+                on_release: root.back_to_menu()
+
+            Button:
+                id: next_button
+                text: "Next Level"
+                font_name: "Bitcount"
+                font_size: 30
+                disabled: True
+                on_release: root.next_level()
+
+<GameResultsScreen>:
+    name: "gameresultsscreen"
+    FloatLayout:
+        size_hint: (1, 1)
+        pos_hint: {"x": 0, "y": 0}
+        Image:
+            source: "assets/bg.gif"
+            allow_stretch: True
+            keep_ratio: False
+            size_hint: (1, 1)
+            pos_hint: {"x": 0, "y": 0}
+            anim_delay: 0.1
+
+    BoxLayout:
+        orientation: "vertical"
+        spacing: 40
+        padding: [60, 80, 60, 80]
+        
+        Widget:
+            size_hint_y: 0.1
+        
+        Label:
+            id: congratulations_label
+            text: " "
+            font_name: "Bitcount"
+            font_size: 50
+            halign: "center"
+            size_hint_y: None
+            height: 80
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.7
+                RoundedRectangle:
+                    pos: self.x - 20, self.y - 10
+                    size: self.width + 40, self.height + 20
+                    radius: [15]
+
+        Label:
+            id: score_label
+            text: " "
+            font_name: "Bitcount"
+            font_size: 40
+            halign: "center"
+            size_hint_y: None
+            height: 60
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.6
+                RoundedRectangle:
+                    pos: self.x - 20, self.y - 10
+                    size: self.width + 40, self.height + 20
+                    radius: [10]
+
+        Label:
+            id: percentage_label
+            text: " "
+            font_name: "Bitcount"
+            font_size: 30
+            halign: "center"
+            size_hint_y: None
+            height: 50
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.6
+                RoundedRectangle:
+                    pos: self.x - 20, self.y - 10
+                    size: self.width + 40, self.height + 20
+                    radius: [10]
+
+        Label:
+            id: rating_label
+            text: " "
+            font_name: "Bitcount"
+            font_size: 30
+            halign: "center"
+            size_hint_y: None
+            height: 50
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 0.6
+                RoundedRectangle:
+                    pos: self.x - 20, self.y - 10
+                    size: self.width + 40, self.height + 20
+                    radius: [10]
+
+        Widget:
+
+
+        BoxLayout:
+            orientation: "horizontal"
+            spacing: 40
+            size_hint_y: None
+            height: 60
+
+            Button:
+                text: "Play Again"
+                font_name: "Bitcount"
+                font_size: 30
+                on_release: root.play_again()
+
+            Button:
+                text: "Main Menu"
+                font_name: "Bitcount"
+                font_size: 30
+                on_release: root.back_to_menu()
+
 
 ScreenManager:
     WelcomeScreen:
@@ -218,3 +575,5 @@ ScreenManager:
     ResultScreen:
     PlayingScreen:
     MelodySettingsScreen:
+    GameScreen:
+    GameResultsScreen:

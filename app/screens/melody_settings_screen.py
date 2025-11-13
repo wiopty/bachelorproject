@@ -2,15 +2,23 @@ from kivy.uix.screenmanager import Screen
 
 
 class MelodySettingsScreen(Screen):
-    selected_octaves = [2,3,4] 
+    selected_octaves = [4,5,6] 
     use_sharps = False
     selected_file = None
+    selected_melody_instrument = "Piano" 
+    selected_bass_instrument = "Piano" 
 
     def toggle_sharps(self,instance, value):
         self.use_sharps = value
 
     def set_octaves(self, octaves_list):
         self.selected_octaves = octaves_list
+
+    def set_melody_instrument(self, instrument_name):
+        self.selected_melody_instrument = instrument_name
+
+    def set_bass_instrument(self, instrument_name):
+        self.selected_bass_instrument = instrument_name
 
     def generate_notes(self, use_sharps, octaves):
         base_notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B']
@@ -44,13 +52,15 @@ class MelodySettingsScreen(Screen):
     def start_processing(self):
         notes_range = self.generate_notes(self.use_sharps, self.selected_octaves)
 
-        print("Generated notes range:")
-        for k, v in notes_range.items():
-            print(f"{k}: {v}")
+        # print("Generated notes range:")
+        # for k, v in notes_range.items():
+        #     print(f"{k}: {v}")
 
         loading_screen = self.manager.get_screen("loadingscreen")
         loading_screen.notes_range = notes_range
         loading_screen.selected_file = self.selected_file
+        loading_screen.selected_melody_instrument = self.selected_melody_instrument
+        loading_screen.selected_bass_instrument = self.selected_bass_instrument
         self.manager.current = "loadingscreen"
         loading_screen.start_processing()
     
