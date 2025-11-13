@@ -1,6 +1,6 @@
 # import json
+#main check 1.0 
 
-#check
 # def load_hue_map(path):
 #     with open(path, "r", encoding="utf-8") as f:
 #         return json.load(f)
